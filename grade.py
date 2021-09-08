@@ -1,5 +1,6 @@
 import pandas as pd
 import sys
+import re
 
 zybook_csv_path = sys.argv[1]
 zybook_col = sys.argv[2]
@@ -37,8 +38,12 @@ for index, row in zybook_df.iterrows():
     # compare last name to d2l usernames
     for student in class_list:
         student = student.lower()
-        if row['Last name'].lower() in student:
-            if row['First name'].lower() in student:
+        last_name = row['Last name'].lower()
+        last_name = re.sub(r'\W+', '', last_name)
+        if last_name in student:
+            first_name = row['First name'].lower()
+            first_name = re.sub(r'\W+', '', first_name)
+            if first_name in student:
                 complete_d2l_usernames.append(student)
                 #print(student)
                 added = True
