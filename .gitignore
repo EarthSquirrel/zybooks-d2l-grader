@@ -1,2 +1,3 @@
-# ignore the class list for privacy reasons
-classlist.txt
+# ignore the mapping file. 
+# Don't want commited for privacy reasons.
+d2l_zybook_mapping.csv
