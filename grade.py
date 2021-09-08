@@ -33,8 +33,8 @@ except KeyError:
     sys.exit()
 
 # create empty d2l df
-d2l_df = pd.DataFrame([], columns=['Username', d2l_col,
-                                   'End-of-Line Indicator'])
+d2l_df_cols = ['Username', d2l_col, 'End-of-Line Indicator']
+d2l_df = pd.DataFrame([], columns=d2l_df_cols)
 
 # create lists to hold missing rows
 used_zybooks = []
@@ -49,6 +49,10 @@ for index, row in mapping.iterrows():
         grade = zybook_df.loc[zybook_index, zybook_col]
         used_d2l.append(index)
         used_zybooks.append(zybook_index)
+        graded = pd.DataFrame([[index, grade, '#']], columns=d2l_df_cols)
+        d2l_df = d2l_df.append(graded, ignore_index=True)
     except KeyError:
         print('{} did not map to zybook index'.format(index))
         grade = 'ERROR'  # TODO: What to put here?
+
+print(d2l_df)
