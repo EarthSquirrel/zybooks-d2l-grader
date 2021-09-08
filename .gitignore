@@ -2,3 +2,6 @@
 # Don't want commited for privacy reasons
 d2l_zybook_mapping.csv
 unmatched_zybooks.txt
+
+# ignore all csv files because can change name
+*.csv
