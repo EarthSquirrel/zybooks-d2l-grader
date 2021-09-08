@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 import re
+from os.path import exists
 
 # paths to files from command line input
 zybook_csv_path = sys.argv[1]
@@ -64,7 +65,20 @@ for username in missing_d2l:
     mapping = mapping.append(append, ignore_index=True)
 
 # write mapping to file
-mapping.to_csv('d2l_zybook_mapping.csv', index=False)
+mapping_file_name = 'd2l_zybook_mapping.csv'
+if exists(mapping_file_name):
+    print('{} already exists. Do you want to overwite existing file?'.format(
+          mapping_file_name))
+    response = input('y/n: ')
+    if response.lower() == 'y':
+        mapping.to_csv(mapping_file_name, index=False)
+    else: # should be an n but a catch all
+        new_file_name = input('Enter a new file name: ')
+        print('**NOTE: only mappings in the {} file will be used.**'.format(
+              mapping_file_name))
+        mapping.to_csv(new_file_name, index=False)
+else:
+    mapping.to_csv(mapping_file_name, index=False)
 
 # write unmatched zybook names to txt file
 with open('unmatched_zybooks.txt', 'w') as f:
