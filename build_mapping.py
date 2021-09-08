@@ -39,13 +39,17 @@ for index, row in zybook_df.iterrows():
         missed_zybooks_users.append('{} {}'.format(row['First name'],
                                                    row['Last name']))
 
-print('Zybook users not found:')
-print(missed_zybooks_users)
 
-print('D2L users not found:')
+# get the d2l usernames that were not associated with a zybook login
 success_d2l = [match[0] for match in matched]
 # s.difference(t)   s - t   new set with elements in s but not in t
 missing_d2l = list(set(d2l_class_list).difference(set(success_d2l)))
+
+
+# print things
+print('Zybook users not found:')
+print(missed_zybooks_users)
+print('\n\nD2L users not found:')
 print(missing_d2l)
 
 
@@ -62,4 +66,6 @@ for username in missing_d2l:
 # write mapping to file
 mapping.to_csv('d2l_zybook_mapping.csv', index=False)
 
-# TODO: write missing zybooks names to txt file
+# write unmatched zybook names to txt file
+with open('unmatched_zybooks.txt', 'w') as f:
+    f.write('\n'.join(missed_zybooks_users))
