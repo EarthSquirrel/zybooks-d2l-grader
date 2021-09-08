@@ -5,3 +5,4 @@ unmatched_zybooks.txt
 
 # ignore all csv files because can change name
 *.csv
+*.txt
