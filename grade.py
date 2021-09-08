@@ -1,24 +1,28 @@
 import pandas as pd
 import sys
 import re
+from os.path import exists
 
 zybook_csv_path = sys.argv[1]
 zybook_col = sys.argv[2]
 d2l_col = sys.argv[3]
 d2l_saved_name = sys.argv[4]
 
-# get usernames for class
-class_list_path = "classlist.txt"
-class_list = []
-with open(class_list_path, 'r') as f:
-    line = f.readline()
-    while line:
-        class_list.append(line.strip())
-        line = f.readline()
 
+# Get mapping dataframe
+mapping_path = 'd2l_zybook_mapping.csv'
+if not exists(mapping_path):  # does mapping file exist
+    print('****************************')
+    print('ERROR: {} does not exist'.format(mapping_path))
+    print('Run build_mapping.py to create')
+    print('****************************')
+    sys.exit()  # exit if cannot find the needed file
+mapping = pd.read_csv(mapping_path)
+mapping.set_index('d2l username', inplace=True)
 
 # read in zybooks
 zybook_df = pd.read_csv(zybook_csv_path)
+zybook_df.set_index(['First name', 'Last name'], inplace=True)
 try:
     zybook_grade_col = zybook_df[zybook_col]
 except KeyError:
@@ -26,40 +30,4 @@ except KeyError:
     print('"{}" is not a column in the zybooks csv'.format(zybook_col))
     print('**********************')
     print('Column options are: {}'.format(', '.join(zybook_df.columns.values)))
-
-
-#
-complete_d2l_usernames = []  # store the usernames that work in zybooks
-missed_zybooks_users = []
-# go through each row in zybooks and find corresponding d2l username
-for index, row in zybook_df.iterrows():
-    added = False
-    #print('Zybook: {} {}'.format(row['First name'], row['Last name']))
-    # compare last name to d2l usernames
-    for student in class_list:
-        student = student.lower()
-        last_name = row['Last name'].lower()
-        last_name = re.sub(r'\W+', '', last_name)
-        if last_name in student:
-            first_name = row['First name'].lower()
-            first_name = re.sub(r'\W+', '', first_name)
-            if first_name in student:
-                complete_d2l_usernames.append(student)
-                #print(student)
-                added = True
-                # TODO: update d2l grade csv
-    if not added:
-        missed_zybooks_users.append('{} {}'.format(row['First name'],
-                                                   row['Last name']))
-
-print('Zybook users not found:')
-print(missed_zybooks_users)
-
-print('D2L users not found:')
-# s.difference(t)   s - t   new set with elements in s but not in t
-missing_d2l = list(set(class_list).difference(complete_d2l_usernames))
-print(missing_d2l)
-
-
-print('complete_d2l_usernames len: {}'.format(len(complete_d2l_usernames)))
-print('class_list len: {}'.format(len(class_list)))
+    sys.exit()
