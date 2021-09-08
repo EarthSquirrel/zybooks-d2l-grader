@@ -31,3 +31,11 @@ except KeyError:
     print('**********************')
     print('Column options are: {}'.format(', '.join(zybook_df.columns.values)))
     sys.exit()
+
+# create empty d2l df
+d2l_df = pd.DataFrame([], columns=['Username', d2l_col,
+                                   'End-of-Line Indicator'])
+
+print(d2l_df)
+
+
