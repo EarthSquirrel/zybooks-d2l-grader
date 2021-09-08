@@ -1,3 +1,4 @@
-# ignore the mapping file. 
-# Don't want commited for privacy reasons.
+# ignore mapping realtd files 
+# Don't want commited for privacy reasons
 d2l_zybook_mapping.csv
+unmatched_zybooks.txt
