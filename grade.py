@@ -25,3 +25,28 @@ except KeyError:
     print('"{}" is not a column in the zybooks csv'.format(zybook_col))
     print('**********************')
     print('Column options are: {}'.format(', '.join(zybook_df.columns.values)))
+
+
+#
+complete_d2l_usernames = []  # store the usernames that work in zybooks
+missed_zybooks_users = []
+# go through each row in zybooks and find corresponding d2l username
+for index, row in zybook_df.iterrows():
+    added = False
+    #print('Zybook: {} {}'.format(row['First name'], row['Last name']))
+    # compare last name to d2l usernames
+    for student in class_list:
+        student = student.lower()
+        if row['Last name'].lower() in student:
+            if row['First name'].lower() in student:
+                complete_d2l_usernames.append(student)
+                #print(student)
+                added = True
+                # TODO: update d2l grade csv
+    if not added:
+        missed_zybooks_users.append([row['First name'], row['Last name']])
+
+print(missed_zybooks_users)
+
+print('complete_d2l_usernames len: {}'.format(len(complete_d2l_usernames)))
+print('class_list len: {}'.format(len(class_list)))
