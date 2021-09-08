@@ -47,3 +47,19 @@ success_d2l = [match[0] for match in matched]
 # s.difference(t)   s - t   new set with elements in s but not in t
 missing_d2l = list(set(d2l_class_list).difference(set(success_d2l)))
 print(missing_d2l)
+
+
+# build matched dataframe
+map_cols = ['d2l username', 'First name', 'Last name']
+mapping = pd.DataFrame(matched, columns=map_cols)
+
+# for each missing d2l username add a blank line
+for username in missing_d2l:
+    append = pd.DataFrame([[username, '', '']], columns=map_cols) 
+                                                       
+    mapping = mapping.append(append, ignore_index=True)
+
+# write mapping to file
+mapping.to_csv('d2l_zybook_mapping.csv', index=False)
+
+# TODO: write missing zybooks names to txt file
