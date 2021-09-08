@@ -49,9 +49,17 @@ for index, row in zybook_df.iterrows():
                 added = True
                 # TODO: update d2l grade csv
     if not added:
-        missed_zybooks_users.append([row['First name'], row['Last name']])
+        missed_zybooks_users.append('{} {}'.format(row['First name'],
+                                                   row['Last name']))
 
+print('Zybook users not found:')
 print(missed_zybooks_users)
+
+print('D2L users not found:')
+# s.difference(t)   s - t   new set with elements in s but not in t
+missing_d2l = list(set(class_list).difference(complete_d2l_usernames))
+print(missing_d2l)
+
 
 print('complete_d2l_usernames len: {}'.format(len(complete_d2l_usernames)))
 print('class_list len: {}'.format(len(class_list)))
