@@ -36,6 +36,19 @@ except KeyError:
 d2l_df = pd.DataFrame([], columns=['Username', d2l_col,
                                    'End-of-Line Indicator'])
 
-print(d2l_df)
+# create lists to hold missing rows
+used_zybooks = []
+used_d2l = []
 
 
+# go through mapping and do zybook things
+for index, row in mapping.iterrows():
+    # get grade from zybook df
+    zybook_index = (row['First name'], row['Last name'])
+    try:
+        grade = zybook_df.loc[zybook_index, zybook_col]
+        used_d2l.append(index)
+        used_zybooks.append(zybook_index)
+    except KeyError:
+        print('{} did not map to zybook index'.format(index))
+        grade = 'ERROR'  # TODO: What to put here?
