@@ -4,15 +4,10 @@ from tkinter.filedialog import askopenfilename
 import os, sys, re
 import pandas as pd
 import grade
-#from gui_functions import *
 
-# Variables that do things
+# Initilize variables that do things
 zybook_csv_path = ''
 zybook_df = pd.DataFrame()
-
-
-root = tk.Tk()
-root.title('zyBook to D2L Grade Converter')
 
 # row values
 row_upload_btn = 0
@@ -24,12 +19,16 @@ row_zybook_pts = 5
 row_d2l_pts = 6
 row_run = 10
 
-# OptionMenu to select column of zybook
+# create the main window
+root = tk.Tk()
+root.title('zyBook to D2L Grade Converter')
+#root.eval('tk::PlaceWindow . center')
+
+# separate file upload from necessary input parameters
 separator = ttk.Separator(root, orient='horizontal')
-#separator.grid(row=2, columnspan=99, sticky="nswe", padx=2, pady=5)
 text = 'Select zyBook grade column'
 label_select_zybook_col = tk.Label(root, text=text)
-# this will hold selected zybook column
+# OptionMenu to select column of zybook - this will hold selected zybook column
 zybook_col_var = tk.StringVar(root)
 
 # ROW 4: d2l column name
@@ -44,11 +43,10 @@ entry_zybook_pts = tk.Entry(root)
 label_d2l_pts = tk.Label(root, text="D2L points")
 entry_d2l_pts = tk.Entry(root)
 
-
-# label to display file name
+# label to display file name, make appear on start of program
 uploaded_file_str = tk.StringVar()
 label_uploaded_file = tk.Label(root, textvariable=uploaded_file_str)
-uploaded_file_str.set('select a file to upload')
+uploaded_file_str.set('**select a file to upload**')
 label_uploaded_file.grid(row=row_show_file_name, columnspan=2, sticky='')
 
 
