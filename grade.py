@@ -7,7 +7,10 @@ from os.path import exists, split, join
 zybook_csv_path = sys.argv[1]
 zybook_col = sys.argv[2]
 d2l_col = sys.argv[3]
-d2l_saved_name = sys.argv[4]
+
+# make output file similar name to input file in same directory
+d2l_saved_name = join(split(zybook_csv_path)[0],
+                      'd2l-{}'.format(split(zybook_csv_path)[1]))
 
 # Get mapping dataframe
 mapping_path = 'd2l_zybook_mapping.csv'
@@ -53,7 +56,9 @@ for index, row in mapping.iterrows():
         graded = pd.DataFrame([[index, grade, '#']], columns=d2l_df_cols)
         d2l_df = d2l_df.append(graded, ignore_index=True)
     except KeyError:
-        print('{} did not map to zybook index'.format(index))
+        # This will be accounted for in d2l_missed, do nothing for now
+        # there was no mapping to zybooks in the d2l_zybook_mapping.py file
+        #print('{} did not map to zybook index'.format(index))
         grade = 'ERROR'  # TODO: What to put here?
 
 #print(d2l_df)
