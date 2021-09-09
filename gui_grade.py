@@ -33,7 +33,7 @@ label_select_zybook_col = tk.Label(root, text=text)
 zybook_col_var = tk.StringVar(root)
 
 # ROW 4: d2l column name
-label_d2l_col = tk.Label(root, text="D2L column name")
+label_d2l_col = tk.Label(root, text="D2L column name (assignment_name Points Grade)")
 entry_d2l_col = tk.Entry(root)
 
 # ROW 5: zybook point adjustments
