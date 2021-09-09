@@ -12,23 +12,25 @@ zybook_df = pd.DataFrame()
 
 root = tk.Tk()
 
+# row values
+row_upload_btn = 0
+row_show_file_name = 1
+row_separator = 2
+row_zybook_col = 3
+row_d2l_col = 4
+row_run = 10
+
 # OptionMenu to select column of zybook
 separator = ttk.Separator(root, orient='horizontal')
-separator.grid(row=2, columnspan=99, sticky="nswe", padx=2, pady=5)
+#separator.grid(row=2, columnspan=99, sticky="nswe", padx=2, pady=5)
 text = 'Select zyBook grade column'
 label_select_zybook_col = tk.Label(root, text=text)
-label_select_zybook_col.grid(row=3, column=0)
-# make random thing in OptionMenu that will be updated when file uploaded
+# this will hold selected zybook column
 zybook_col_var = tk.StringVar(root)
-zybook_col_list = ('upload csv file',)
-zybook_col_select = tk.OptionMenu(root, zybook_col_var, *zybook_col_list)
-zybook_col_select.grid(row=3, column=1)
 
 # ROW 4: d2l column name
 label_d2l_col = tk.Label(root, text="D2L column name")
-label_d2l_col.grid(row=4, column=0)
 entry_d2l_col = tk.Entry(root)
-entry_d2l_col.grid(row=4, column=1)
 
 # ROW 5: point adjustments
 
@@ -38,7 +40,7 @@ entry_d2l_col.grid(row=4, column=1)
 uploaded_file_str = tk.StringVar()
 label_uploaded_file = tk.Label(root, textvariable=uploaded_file_str)
 uploaded_file_str.set('select a file to upload')
-label_uploaded_file.grid(row=1, columnspan=2, sticky='')
+label_uploaded_file.grid(row=row_show_file_name, columnspan=2, sticky='')
 
 
 # controls to upload a file
@@ -50,22 +52,22 @@ def upload_file():
     uploaded_file_str.set(os.path.split(zybook_csv_path)[1])
     zybook_df = pd.read_csv(zybook_csv_path)
 
-    # update zybook column options
-    # Reset var and delete all old options
-    zybook_col_var.set('')
-    zybook_col_select['menu'].delete(0, 'end')
+    # make things visible
+    separator.grid(row=row_separator, columnspan=99, sticky="nswe", padx=2,
+                   pady=5)
+    label_select_zybook_col.grid(row=row_zybook_col, column=0)
+    zybook_col_list = set(zybook_df.columns.values)
+    zybook_col_select = tk.OptionMenu(root, zybook_col_var, *zybook_col_list)
+    zybook_col_select.grid(row=row_zybook_col, column=1)
 
-    # Insert list of new options (tk._setit hooks them up to StringVar)
-    new_choices = set(zybook_df.columns.values)
-    for choice in new_choices:
-        zybook_col_select['menu'].add_command(label=choice,
-                                              command=tk._setit(zybook_col_var,
-                                                                choice))
+    label_d2l_col.grid(row=row_d2l_col, column=0)
+    entry_d2l_col.grid(row=row_d2l_col, column=1)
+
 
 label_upload_file = tk.Label(root, text="zyBook csv file: ")
-label_upload_file.grid(row=0, column=0)
+label_upload_file.grid(row=row_upload_btn, column=0)
 btn_upload_file = tk.Button(root, text="Upload File", command=upload_file)
-btn_upload_file.grid(row=0, column=1)
+btn_upload_file.grid(row=row_upload_btn, column=1)
 
 def process():
     # get the zybook column
@@ -78,6 +80,6 @@ def process():
 
 
 btn_process = tk.Button(root, command=process, text="Run")
-btn_process.grid(row=10, columnspan=99)
+btn_process.grid(row=row_run, columnspan=99)
 
 root.mainloop()
