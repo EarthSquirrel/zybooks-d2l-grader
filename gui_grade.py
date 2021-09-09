@@ -24,6 +24,13 @@ zybook_col_list = ('upload csv file',)
 zybook_col_select = tk.OptionMenu(root, zybook_col_var, *zybook_col_list)
 zybook_col_select.grid(row=3, column=1)
 
+# ROW 4: d2l column name
+label_d2l_col = tk.Label(root, text="D2L column name")
+label_d2l_col.grid(row=4, column=0)
+entry_d2l_col = tk.Entry(root)
+entry_d2l_col.grid(row=4, column=1)
+
+# ROW 5: point adjustments
 
 
 
@@ -65,8 +72,12 @@ def process():
     zybook_col = zybook_col_var.get()
     print('selected zybook column: ', zybook_col)
 
+    # get d2l column label
+    d2l_col = entry_d2l_col.get()
+    print('D2L column label: ', d2l_col)
 
-btn_process = tk.Button(root, command=process)
-btn_process.grid(row=10, text="Run", columnspan=99)
+
+btn_process = tk.Button(root, command=process, text="Run")
+btn_process.grid(row=10, columnspan=99)
 
 root.mainloop()
