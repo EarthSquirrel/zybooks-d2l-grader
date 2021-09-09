@@ -1,13 +1,13 @@
 import pandas as pd
 import sys
 import re
-from os.path import exists
+from os.path import exists, split, join
 
+# get command line inputs
 zybook_csv_path = sys.argv[1]
 zybook_col = sys.argv[2]
 d2l_col = sys.argv[3]
 d2l_saved_name = sys.argv[4]
-
 
 # Get mapping dataframe
 mapping_path = 'd2l_zybook_mapping.csv'
@@ -47,6 +47,7 @@ for index, row in mapping.iterrows():
     zybook_index = (row['First name'], row['Last name'])
     try:
         grade = zybook_df.loc[zybook_index, zybook_col]
+        grade = round(grade*10/29, 1)
         used_d2l.append(index)
         used_zybooks.append(zybook_index)
         graded = pd.DataFrame([[index, grade, '#']], columns=d2l_df_cols)
@@ -55,4 +56,18 @@ for index, row in mapping.iterrows():
         print('{} did not map to zybook index'.format(index))
         grade = 'ERROR'  # TODO: What to put here?
 
-print(d2l_df)
+#print(d2l_df)
+d2l_df.to_csv(d2l_saved_name, index=False)
+
+
+# print not accounted for values
+print('***************************************************')
+# tell d2l usernames not outputed
+# s.difference(t)   s - t        new set with elements in s but not in t
+d2l_missed = list(set(mapping.index.values).difference(set(used_d2l)))
+print('d2l usernames with no zybook grade:')
+print(d2l_missed)
+# tell zybook names not outputed
+zybook_missed = list(set(zybook_df.index.values).difference(set(used_zybooks)))
+print('zybook names with no d2l username:')
+print(zybook_missed)
