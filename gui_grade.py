@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.filedialog import askopenfilename
-import os
+import os, sys
 import pandas as pd
 import grade
 #from gui_functions import *
@@ -81,6 +81,18 @@ label_upload_file.grid(row=row_upload_btn, column=0)
 btn_upload_file = tk.Button(root, text="Upload File", command=upload_file)
 btn_upload_file.grid(row=row_upload_btn, column=1)
 
+def open_output():
+    path = grade.get_d2l_save_name(zybook_csv_path)
+    print(path)
+    if sys.platform == 'win32':
+        os.startfile(path)
+    elif sys.platform == 'darwin':
+        os.system('open "{}"'.format(path))
+    elif sys.platform == 'linux' or sys.platform == 'linux2':
+        print('?????????????')
+    else:
+        print('{} is unknown'.format(sys.platform))
+
 def process():
     # get values from window
     zybook_col = zybook_col_var.get()
@@ -90,9 +102,11 @@ def process():
 
     stats = grade.run(zybook_csv_path, zybook_col, d2l_col, zybook_pts)
 
-    window_finished = tk.Toplevel(root)
+    window_finished = tk.Toplevel(root) 
     tk.Label(window_finished, text=stats, padx=4).pack()
-
+    tk.Button(window_finished, text="Open output file", 
+              command=open_output).pack()
+    tk.Button(window_finished, text="Exit", command=root.destroy).pack()
 
 btn_process = tk.Button(root, command=process, text="Run")
 btn_process.grid(row=row_run, columnspan=99)
