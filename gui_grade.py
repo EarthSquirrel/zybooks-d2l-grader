@@ -100,7 +100,8 @@ def open_output():
     elif sys.platform == 'darwin':
         os.system('open "{}"'.format(path))
     elif sys.platform == 'linux' or sys.platform == 'linux2':
-        print('?????????????')
+        # NOTE: I cannot test this one, so I'm just hoping it works
+        os.system('xdg-open "{}"'.format(path))
     else:
         print('{} is unknown'.format(sys.platform))
 
