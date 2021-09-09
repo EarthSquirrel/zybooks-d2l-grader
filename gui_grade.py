@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.filedialog import askopenfilename
-import os, sys
+import os, sys, re
 import pandas as pd
 import grade
 #from gui_functions import *
@@ -59,19 +59,27 @@ def upload_file():
     zybook_csv_path = askopenfilename()
     uploaded_file_str.set(os.path.split(zybook_csv_path)[1])
     zybook_df = pd.read_csv(zybook_csv_path)
+    zybook_header = zybook_df.columns.values
 
     # make things visible
     separator.grid(row=row_separator, columnspan=99, sticky="nswe", padx=2,
                    pady=5)
     label_select_zybook_col.grid(row=row_zybook_col, column=0)
-    zybook_col_list = set(zybook_df.columns.values)
-    zybook_col_select = tk.OptionMenu(root, zybook_col_var, *zybook_col_list)
+    zybook_col_select = tk.OptionMenu(root, zybook_col_var, *zybook_header)
+    predicted_header = ''
+    for col in zybook_header:
+        if 'points earned' in col.lower():
+            predicted_header = col
+            zybook_col_var.set(predicted_header)
+            break
     zybook_col_select.grid(row=row_zybook_col, column=1)
 
     label_d2l_col.grid(row=row_d2l_col, column=0)
     entry_d2l_col.grid(row=row_d2l_col, column=1)
     label_zybook_pts.grid(row=row_zybook_pts, column=0)
+    entry_zybook_pts.insert(0, re.sub("[^0-9]", "", predicted_header))
     entry_zybook_pts.grid(row=row_zybook_pts, column=1)
+    entry_d2l_pts.insert(0, "10")
     label_d2l_pts.grid(row=row_d2l_pts, column=0)
     entry_d2l_pts.grid(row=row_d2l_pts, column=1)
 
