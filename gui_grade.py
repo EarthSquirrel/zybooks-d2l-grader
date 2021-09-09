@@ -88,9 +88,10 @@ def process():
     zybook_pts = entry_zybook_pts.get()
     d2l_pts = entry_d2l_pts.get()
 
-    grade.run(zybook_csv_path, zybook_col, d2l_col, zybook_pts)
+    stats = grade.run(zybook_csv_path, zybook_col, d2l_col, zybook_pts)
 
-    messagebox.showinfo('Complete', 'Grades have been saved')
+    window_finished = tk.Toplevel(root)
+    tk.Label(window_finished, text=stats, padx=4).pack()
 
 
 btn_process = tk.Button(root, command=process, text="Run")
