@@ -60,6 +60,13 @@ label_upload_file.grid(row=0, column=0)
 btn_upload_file = tk.Button(root, text="Upload File", command=upload_file)
 btn_upload_file.grid(row=0, column=1)
 
+def process():
+    # get the zybook column
+    zybook_col = zybook_col_var.get()
+    print('selected zybook column: ', zybook_col)
 
+
+btn_process = tk.Button(root, command=process)
+btn_process.grid(row=10, text="Run", columnspan=99)
 
 root.mainloop()
