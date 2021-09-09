@@ -1,9 +1,12 @@
 import tkinter as tk
 from gui_functions import *
 
-top = tk.Tk()
+root = tk.Tk()
 
-btn_upload_file = tk.Button(top, text="Upload File", command=upload_file)
-btn_upload_file.pack(side=tk.LEFT)
+# controls to upload a file
+label_upload_file = tk.Label(root, text="zyBook csv file: ")
+label_upload_file.pack(side=tk.LEFT)
+btn_upload_file = tk.Button(root, text="Upload File", command=upload_file)
+btn_upload_file.pack(side=tk.RIGHT)
 
-top.mainloop()
+root.mainloop()
