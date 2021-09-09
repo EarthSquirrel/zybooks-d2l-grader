@@ -47,7 +47,8 @@ entry_d2l_pts = tk.Entry(root)
 uploaded_file_str = tk.StringVar()
 label_uploaded_file = tk.Label(root, textvariable=uploaded_file_str)
 uploaded_file_str.set('**select a file to upload**')
-label_uploaded_file.grid(row=row_show_file_name, columnspan=2, sticky='')
+label_uploaded_file.grid(row=row_show_file_name, columnspan=2, sticky='', 
+                         padx=10)
 
 
 # controls to upload a file
