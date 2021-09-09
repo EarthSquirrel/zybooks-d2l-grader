@@ -9,6 +9,13 @@ from os.path import exists, split, join
 #d2l_col = sys.argv[3]
 #zybook_points = sys.argv[4]
 
+def get_d2l_save_name(zybook_csv_path):
+    # make output file similar name to input file in same directory
+    d2l_saved_name = join(split(zybook_csv_path)[0],
+                          'd2l-{}'.format(split(zybook_csv_path)[1]))
+    return d2l_saved_name
+
+
 def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10):
     try:
         zybook_points = int(zybook_points)
@@ -23,8 +30,7 @@ def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10):
         sys.exti()
 
     # make output file similar name to input file in same directory
-    d2l_saved_name = join(split(zybook_csv_path)[0],
-                          'd2l-{}'.format(split(zybook_csv_path)[1]))
+    d2l_saved_name = get_d2l_save_name(zybook_csv_path)
 
     # Get mapping dataframe
     mapping_path = 'd2l_zybook_mapping.csv'
@@ -79,17 +85,19 @@ def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10):
     d2l_df.to_csv(d2l_saved_name, index=False)
 
 
+    stats = ''
     # print not accounted for values
-    print('***************************************************')
+    stats += '***************************************************\n'
     # tell d2l usernames not outputed
     # s.difference(t)   s - t        new set with elements in s but not in t
     d2l_missed = list(set(mapping.index.values).difference(set(used_d2l)))
-    print('d2l usernames with no zybook grade:')
-    print(d2l_missed)
+    stats += 'd2l usernames with no zybook grade:\n'
+    stats += ', '.join(d2l_missed) + '\n'
     # tell zybook names not outputed
     zybook_missed = list(set(zybook_df.index.values).difference(set(used_zybooks)))
-    print('zybook names with no d2l username:')
-    print(zybook_missed)
+    stats += 'zybook names with no d2l username:\n'
+    stats += ', '.join([str(z) for z in zybook_missed]) + '\n'
+    return stats
 
 if __name__ == '__main__':
     # get command line inputs
