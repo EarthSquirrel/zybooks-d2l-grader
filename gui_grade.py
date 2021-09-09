@@ -55,7 +55,6 @@ label_uploaded_file.grid(row=row_show_file_name, columnspan=2, sticky='')
 # controls to upload a file
 def upload_file():
     global zybook_csv_path, zybook_df
-    print('Calling: upload_file')
     # show an "Open" dialog box and return the path to the selected file
     zybook_csv_path = askopenfilename()
     uploaded_file_str.set(os.path.split(zybook_csv_path)[1])
