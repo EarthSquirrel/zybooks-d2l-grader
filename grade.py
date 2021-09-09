@@ -7,6 +7,13 @@ from os.path import exists, split, join
 zybook_csv_path = sys.argv[1]
 zybook_col = sys.argv[2]
 d2l_col = sys.argv[3]
+zybook_points = sys.argv[4]
+
+try:
+    zybook_points = int(zybook_points)
+except ValueError:
+    print('zybook_points must be an integer. Try again.')
+    sys.exit()
 
 # make output file similar name to input file in same directory
 d2l_saved_name = join(split(zybook_csv_path)[0],
@@ -50,7 +57,7 @@ for index, row in mapping.iterrows():
     zybook_index = (row['First name'], row['Last name'])
     try:
         grade = zybook_df.loc[zybook_index, zybook_col]
-        grade = round(grade*10/29, 1)
+        grade = round(grade*10/zybook_points, 1)
         used_d2l.append(index)
         used_zybooks.append(zybook_index)
         graded = pd.DataFrame([[index, grade, '#']], columns=d2l_df_cols)
