@@ -12,6 +12,7 @@ zybook_df = pd.DataFrame()
 
 
 root = tk.Tk()
+root.title('zyBook to D2L Grade Converter')
 
 # row values
 row_upload_btn = 0
@@ -103,6 +104,7 @@ def process():
     stats = grade.run(zybook_csv_path, zybook_col, d2l_col, zybook_pts)
 
     window_finished = tk.Toplevel(root) 
+    window_finished.title('Complete')
     tk.Label(window_finished, text=stats, padx=4).pack()
     tk.Button(window_finished, text="Open output file", 
               command=open_output).pack()
