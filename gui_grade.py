@@ -53,6 +53,7 @@ label_uploaded_file.grid(row=row_show_file_name, columnspan=2, sticky='')
 # controls to upload a file
 def upload_file():
     global zybook_csv_path, zybook_df
+    btn_upload_file['text'] = "Upload Different File"
     # show an "Open" dialog box and return the path to the selected file
     zybook_csv_path = askopenfilename()
     uploaded_file_str.set(os.path.split(zybook_csv_path)[1])
@@ -82,6 +83,7 @@ def upload_file():
     entry_d2l_pts.grid(row=row_d2l_pts, column=1)
 
 
+# ROW 0: Show button to upload a file
 label_upload_file = tk.Label(root, text="zyBook csv file: ")
 label_upload_file.grid(row=row_upload_btn, column=0)
 btn_upload_file = tk.Button(root, text="Upload File", command=upload_file)
