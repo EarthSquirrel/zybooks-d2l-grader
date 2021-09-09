@@ -18,6 +18,8 @@ row_show_file_name = 1
 row_separator = 2
 row_zybook_col = 3
 row_d2l_col = 4
+row_zybook_pts = 5
+row_d2l_pts = 6
 row_run = 10
 
 # OptionMenu to select column of zybook
@@ -32,8 +34,13 @@ zybook_col_var = tk.StringVar(root)
 label_d2l_col = tk.Label(root, text="D2L column name")
 entry_d2l_col = tk.Entry(root)
 
-# ROW 5: point adjustments
+# ROW 5: zybook point adjustments
+label_zybook_pts = tk.Label(root, text="Total zyBook points: ")
+entry_zybook_pts = tk.Entry(root)
 
+# ROW 6: d2l point adjustment
+label_d2l_pts = tk.Label(root, text="D2L points")
+entry_d2l_pts = tk.Entry(root)
 
 
 # label to display file name
@@ -62,6 +69,10 @@ def upload_file():
 
     label_d2l_col.grid(row=row_d2l_col, column=0)
     entry_d2l_col.grid(row=row_d2l_col, column=1)
+    label_zybook_pts.grid(row=row_zybook_pts, column=0)
+    entry_zybook_pts.grid(row=row_zybook_pts, column=1)
+    label_d2l_pts.grid(row=row_d2l_pts, column=0)
+    entry_d2l_pts.grid(row=row_d2l_pts, column=1)
 
 
 label_upload_file = tk.Label(root, text="zyBook csv file: ")
@@ -70,13 +81,12 @@ btn_upload_file = tk.Button(root, text="Upload File", command=upload_file)
 btn_upload_file.grid(row=row_upload_btn, column=1)
 
 def process():
-    # get the zybook column
+    # get values from window
     zybook_col = zybook_col_var.get()
-    print('selected zybook column: ', zybook_col)
-
-    # get d2l column label
     d2l_col = entry_d2l_col.get()
-    print('D2L column label: ', d2l_col)
+    zybook_pts = entry_zybook_pts.get()
+    d2l_pts = entry_d2l_pts.get()
+
 
 
 btn_process = tk.Button(root, command=process, text="Run")
