@@ -75,6 +75,7 @@ def upload_file():
     zybook_col_select.grid(row=row_zybook_col, column=1)
 
     label_d2l_col.grid(row=row_d2l_col, column=0)
+    entry_d2l_col.insert(0, ' points grade')
     entry_d2l_col.grid(row=row_d2l_col, column=1)
     label_zybook_pts.grid(row=row_zybook_pts, column=0)
     entry_zybook_pts.delete(0, tk.END)
