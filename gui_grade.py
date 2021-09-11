@@ -47,6 +47,7 @@ entry_d2l_pts = tk.Entry(root)
 # ROW 7: Include d2l entries with no zybook username as 0s
 label_missing_zybook = tk.Label(root, text="What to do with missing zybook users?")
 missing_zybook_var = tk.StringVar()
+# NOTE: Do NOT change the order of this set. It's important for later on
 options_missing_zybook = ('Include as 0', 'Ignore') 
 missing_zybook_var.set(options_missing_zybook[0])
 
@@ -126,8 +127,12 @@ def process():
     d2l_col = entry_d2l_col.get()
     zybook_pts = entry_zybook_pts.get()
     d2l_pts = entry_d2l_pts.get()
-
-    stats = grade.run(zybook_csv_path, zybook_col, d2l_col, zybook_pts)
+    if missing_zybook_var.get() == options_missing_zybook[0]:
+        include_missing = True
+    else:
+        include_missing = False
+    stats = grade.run(zybook_csv_path, zybook_col, d2l_col, zybook_pts, 
+                      d2l_pts, include_missing)
 
     window_finished = tk.Toplevel(root) 
     window_finished.title('Complete')
