@@ -84,6 +84,7 @@ def upload_file():
     entry_d2l_pts.insert(0, "10")
     label_d2l_pts.grid(row=row_d2l_pts, column=0)
     entry_d2l_pts.grid(row=row_d2l_pts, column=1)
+    btn_process.grid(row=row_run, columnspan=99)
 
 
 # ROW 0: Show button to upload a file
@@ -122,6 +123,5 @@ def process():
     tk.Button(window_finished, text="Exit", command=root.destroy).pack()
 
 btn_process = tk.Button(root, command=process, text="Run")
-btn_process.grid(row=row_run, columnspan=99)
 
 root.mainloop()
