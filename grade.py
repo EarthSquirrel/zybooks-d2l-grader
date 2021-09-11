@@ -16,7 +16,8 @@ def get_d2l_save_name(zybook_csv_path):
     return d2l_saved_name
 
 
-def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10):
+def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10,
+        include_missing_zybook=True):
     try:
         zybook_points = int(zybook_points)
     except ValueError:
@@ -79,9 +80,13 @@ def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10):
             # This will be accounted for in d2l_missed, do nothing for now
             # there was no mapping to zybooks in the d2l_zybook_mapping.py file
             #print('{} did not map to zybook index'.format(index))
-            grade = 'ERROR'  # TODO: What to put here?
+            if include_missing_zybook:
+                graded = pd.DataFrame([[index, 0, '#']],
+                                      columns=d2l_df_cols)
+                d2l_df = d2l_df.append(graded, ignore_index=True)
 
     #print(d2l_df)
+
     d2l_df.to_csv(d2l_saved_name, index=False)
 
 
@@ -93,6 +98,7 @@ def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10):
     d2l_missed = list(set(mapping.index.values).difference(set(used_d2l)))
     stats += 'd2l usernames with no zybook grade:\n'
     stats += ', '.join(d2l_missed) + '\n'
+
     # tell zybook names not outputed
     zybook_missed = list(set(zybook_df.index.values).difference(set(used_zybooks)))
     stats += 'zybook names with no d2l username:\n'
@@ -106,4 +112,4 @@ if __name__ == '__main__':
     d2l_col = sys.argv[3]
     zybook_points = sys.argv[4]
 
-    run(zybook_csv_path, zybook_col, d2l_col, zybook_points)
+    print(run(zybook_csv_path, zybook_col, d2l_col, zybook_points))
