@@ -17,6 +17,7 @@ row_zybook_col = 3
 row_d2l_col = 4
 row_zybook_pts = 5
 row_d2l_pts = 6
+row_missing_zybook = 7
 row_run = 10
 
 # create the main window
@@ -42,6 +43,12 @@ entry_zybook_pts = tk.Entry(root)
 # ROW 6: d2l point adjustment
 label_d2l_pts = tk.Label(root, text="D2L points")
 entry_d2l_pts = tk.Entry(root)
+
+# ROW 7: Include d2l entries with no zybook username as 0s
+label_missing_zybook = tk.Label(root, text="What to do with missing zybook users?")
+missing_zybook_var = tk.StringVar()
+options_missing_zybook = ('Include as 0', 'Ignore') 
+missing_zybook_var.set(options_missing_zybook[0])
 
 # label to display file name, make appear on start of program
 uploaded_file_str = tk.StringVar()
@@ -85,6 +92,12 @@ def upload_file():
     entry_d2l_pts.insert(0, "10")
     label_d2l_pts.grid(row=row_d2l_pts, column=0)
     entry_d2l_pts.grid(row=row_d2l_pts, column=1)
+    
+    select_missing_zybook = tk.OptionMenu(root, missing_zybook_var, 
+                                          *options_missing_zybook)
+    label_missing_zybook.grid(row=row_missing_zybook, column=0)
+    select_missing_zybook.grid(row=row_missing_zybook, column=1)
+
     btn_process.grid(row=row_run, columnspan=99)
 
 
