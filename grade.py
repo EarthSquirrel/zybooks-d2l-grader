@@ -43,6 +43,7 @@ def run(zybook_csv_path, zybook_col, d2l_col, zybook_points, d2l_points=10,
         sys.exit()  # exit if cannot find the needed file
     mapping = pd.read_csv(mapping_path)
     mapping.set_index('d2l username', inplace=True)
+    mapping.sort_index(0, inplace=True)  # alphabetize d2l usernames
 
     # read in zybooks
     zybook_df = pd.read_csv(zybook_csv_path)
